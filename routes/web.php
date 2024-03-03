@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /*
@@ -14,6 +16,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render("Home");
+Route::get('/', function (Request $request) {
+    Log::info("hello world");
+    $name = $request->query("name") ?? "khaled";
+    return Inertia::render("Home", ["name" => $name]);
 });
