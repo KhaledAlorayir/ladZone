@@ -1,8 +1,8 @@
 <script setup lang="ts">
-
-const props = defineProps<{ name: string }>()
+import Layout from "../components/layout/Layout.vue";
+const props = defineProps<{ name: string }>();
 </script>
 
 <template>
-    <h1>hello {{name}}</h1>
+    <Layout> </Layout>
 </template>
