@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
-use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,16 +19,12 @@ use Inertia\Inertia;
 
 Route::get('/', function (Request $request) {
     Log::info("hello world");
-    $name = $request->query("name") ?? "khaled";
+    $name = $request->user()->name ?? "not auth";
     return Inertia::render("Home", ["name" => $name]);
 });
 
-
-Route::get("/auth/discord", function (Request $request) {
-    return Socialite::driver('discord')->redirect();
-});
-
-Route::get("/auth/discord/callback", function (Request $request) {
-    $user = Socialite::driver('discord')->user();
-    dd($user);
+Route::prefix('auth')->group(function () {
+    Route::get('/discord/redirect', [AuthController::class, 'redirect']);
+    Route::get('/discord/callback', [AuthController::class, 'callback']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
