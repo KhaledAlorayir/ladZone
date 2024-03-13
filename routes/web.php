@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ListController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -21,9 +22,10 @@ Route::get('/', function (Request $request) {
     return Inertia::render("Home");
 });
 
-Route::get("/list/create-list", function () {
-    return Inertia::render("CreateList");
-})->middleware("auth");
+Route::prefix("list")->group(function () {
+    Route::inertia("/create-list", "CreateList")->middleware("auth");
+    Route::get("/search-games", [ListController::class, "searchGames"]);
+});
 
 Route::prefix('auth')->group(function () {
     Route::get('/discord/redirect', [AuthController::class, 'redirect'])->name("login");
