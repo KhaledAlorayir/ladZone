@@ -3,12 +3,14 @@ import { Link } from "@inertiajs/vue3";
 import { Button } from "@/components/ui/button";
 import { useSharedData } from "@/hooks/useSharedData";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOut } from "lucide-vue-next";
+import { LogOut, ListMinus } from "lucide-vue-next";
 import {
     DropdownMenu,
     DropdownMenuTrigger,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuGroup,
+    DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
 const {
@@ -23,24 +25,33 @@ const {
             <Button v-if="!auth"
                 ><a href="/auth/discord/redirect">Login</a></Button
             >
-            <section v-else>
-                <DropdownMenu>
-                    <DropdownMenuTrigger as-child>
-                        <Avatar size="base">
-                            <AvatarImage :src="auth.avatar" :alt="auth.name" />
-                            <AvatarFallback>{{ auth.name }}</AvatarFallback>
-                        </Avatar>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent class="w-24 mt-1">
+            <DropdownMenu v-else>
+                <DropdownMenuTrigger as-child>
+                    <Avatar size="base" class="cursor-pointer">
+                        <AvatarImage :src="auth.avatar" :alt="auth.name" />
+                        <AvatarFallback>{{ auth.name }}</AvatarFallback>
+                    </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent class="w-24 mt-1">
+                    <DropdownMenuGroup>
+                        <Link href="/list/create-list">
+                            <DropdownMenuItem>
+                                <ListMinus class="mr-2 h-4 w-4" />
+                                <span>create list</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
                         <Link href="/auth/logout">
                             <DropdownMenuItem>
                                 <LogOut class="mr-2 h-4 w-4" />
                                 <span>Log out</span>
                             </DropdownMenuItem>
                         </Link>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </section>
+                    </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </header>
         <section class="flex flex-col flex-1 container mx-auto">
             <slot></slot>

@@ -3,7 +3,5 @@ import Layout from "@/components/layout/Layout.vue";
 </script>
 
 <template>
-    <Layout>
-        <div class="flex-1">Home page</div>
-    </Layout>
+    <Layout> hello world </Layout>
 </template>
