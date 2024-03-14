@@ -13,8 +13,8 @@ class ListController extends Controller
     }
     public function searchGames(Request $request)
     {
-        $this->rawgService->myFunction();
-        // Log::info($request->query("query"));
+        $this->rawgService->searchGames($request->query("query"));
+        // Log::info();
         return redirect("/");
     }
 }
