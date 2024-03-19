@@ -1,5 +1,6 @@
 <?php
 
+use App\Shared\Enums\Visibility;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +16,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string("title");
-            $table->string("description", 5000);
+            $table->string("description", 5000)->nullable();
             $table->boolean("ranked");
-            $table->enum("visibility", ["public", "link", "private"]);
+            $table->enum("visibility", array_column(Visibility::cases(), 'value'));
             $table->foreignId("user_id")->constrained();
-            $table->unique(["title,user_id"]);
+            $table->unique(["title", "user_id"]);
         });
     }
 

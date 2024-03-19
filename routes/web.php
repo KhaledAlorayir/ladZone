@@ -23,12 +23,12 @@ Route::get('/', function (Request $request) {
 });
 
 Route::prefix("list")->group(function () {
-    Route::inertia("/create-list", "CreateList")->middleware("auth");
-    Route::get("/search-games", [ListController::class, "searchGames"]);
+    Route::get("/create-list", [ListController::class, "createListView"])->middleware("auth");
+    Route::get("/search-games", [ListController::class, "searchGames"])->middleware("auth");
 });
 
 Route::prefix('auth')->group(function () {
     Route::get('/discord/redirect', [AuthController::class, 'redirect'])->name("login");
     Route::get('/discord/callback', [AuthController::class, 'callback']);
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout'])->middleware("auth");
 });

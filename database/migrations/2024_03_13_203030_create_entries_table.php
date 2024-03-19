@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('entries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("note", 512);
+            $table->string("note", 512)->nullable();
             $table->foreignId("game_list_id")->constrained();
             $table->foreignId("game_id")->constrained();
             $table->unique(["game_list_id", "game_id"]);

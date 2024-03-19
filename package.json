@@ -19,6 +19,7 @@
         "@inertiajs/vue3": "^1.0.14",
         "@radix-icons/vue": "^1.0.0",
         "@vitejs/plugin-vue": "^5.0.4",
+        "@vueuse/core": "^10.9.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.0",
         "lucide-vue-next": "^0.344.0",

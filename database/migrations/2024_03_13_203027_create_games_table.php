@@ -16,9 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger("rawg_id")->unique();
             $table->string("name")->unique();
-            $table->string("description", 5000);
-            $table->string("image", 1000);
-            $table->string("release_date");
+            $table->string("image", 1000)->nullable();
+            $table->string("release_date")->nullable();
         });
     }
 

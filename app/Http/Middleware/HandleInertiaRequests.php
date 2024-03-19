@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Shared\Constants;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -37,7 +38,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'auth' => fn () => $request->user() ? $request->user()->only('name', 'id', 'email', 'avatar') : null
+            'auth' => fn () => $request->user() ? $request->user()->only('name', 'id', 'email', 'avatar') : null,
+            'searchResults' => fn () => $request->session()->get(Constants::SEARCH_RESULTS_KEY)
         ]);
     }
 }

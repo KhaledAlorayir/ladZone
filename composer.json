@@ -12,9 +12,13 @@
         "laravel/sanctum": "^3.3",
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.8",
-        "socialiteproviders/discord": "^4.2"
+        "predis/predis": "^2.2",
+        "socialiteproviders/discord": "^4.2",
+        "spatie/laravel-data": "^4.4",
+        "spatie/laravel-typescript-transformer": "^2.4"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
