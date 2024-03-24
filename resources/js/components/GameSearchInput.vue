@@ -92,12 +92,7 @@ const open = ref(false);
                             v-for="game in sharedData.props.searchResults"
                             :key="game.id"
                         >
-                            {{ game.name
-                            }}<span
-                                v-if="game.released && !game.name.includes('(')"
-                            >
-                                ({{ game.released.slice(0, 4) }})
-                            </span>
+                            {{ game.name }}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                             v-else

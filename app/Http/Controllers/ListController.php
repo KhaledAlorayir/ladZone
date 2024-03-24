@@ -6,9 +6,7 @@ use App\Models\Game;
 use App\Services\RawgService;
 use App\Shared\Constants;
 use App\Shared\Dtos\CreateListData;
-use App\Shared\Dtos\RawgGameResponse;
-use App\Shared\Enums\Visibility;
-use Illuminate\Database\UniqueConstraintViolationException;
+use App\Shared\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -40,6 +38,7 @@ class ListController extends Controller
                     "release_date" => $game->released
                 ]);
             }
+            $game->name = Utils::formatGameName($game);
         }
         Game::insert($gamesToInsert->toArray());
         redirect()->back()->with(Constants::SEARCH_RESULTS_KEY, $games);

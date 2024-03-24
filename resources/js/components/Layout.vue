@@ -22,8 +22,8 @@ const {
     <main class="h-svh flex flex-col py-8">
         <header class="px-8 xl:px-32 flex items-center justify-between">
             <Link href="/" class="text-2xl font-bold">LadZone</Link>
-            <Button v-if="!auth"
-                ><a href="/auth/discord/redirect">Login</a></Button
+            <a v-if="!auth" href="/auth/discord/redirect"
+                ><Button>Login</Button></a
             >
             <DropdownMenu v-else>
                 <DropdownMenuTrigger as-child>
