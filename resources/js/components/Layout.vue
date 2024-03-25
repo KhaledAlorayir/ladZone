@@ -19,7 +19,7 @@ const {
 </script>
 
 <template>
-    <main class="h-svh flex flex-col py-8">
+    <main class="min-h-svh h-full flex flex-col py-8">
         <header class="px-8 xl:px-32 flex items-center justify-between">
             <Link href="/" class="text-2xl font-bold">LadZone</Link>
             <a v-if="!auth" href="/auth/discord/redirect"

@@ -11,16 +11,21 @@ import {
     DropdownMenuPortal,
     DropdownMenuItem,
 } from "radix-vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
-const selectedGames = defineModel<RawgGameResponse[]>({
-    default: [],
-    required: true,
-});
+const props = withDefaults(
+    defineProps<{
+        placeholder?: string;
+        selectedGames: RawgGameResponse[];
+        maxGamesCount?: number;
+    }>(),
+    { placeholder: "search...", maxGamesCount: 20 }
+);
 
-const props = defineProps({
-    placeholder: { default: "Search...", required: false },
-});
+const emit = defineEmits<{ (e: "select", game: RawgGameResponse): void }>();
+const isUnderLimit = computed(
+    () => props.selectedGames.length < props.maxGamesCount
+);
 
 const form = useForm({
     query: "",
@@ -34,8 +39,11 @@ function submitHandler() {
 }
 
 function selectGameHandler(game: RawgGameResponse) {
-    if (!selectedGames.value.find(({ id }) => game.id === id)) {
-        selectedGames.value.push(game);
+    if (
+        !props.selectedGames.find(({ id }) => game.id === id) &&
+        isUnderLimit.value
+    ) {
+        emit("select", game);
     }
 }
 
@@ -49,6 +57,7 @@ const open = ref(false);
             <section class="space-y-2">
                 <div class="relative">
                     <Input
+                        :disabled="!isUnderLimit"
                         type="text"
                         :placeholder="props.placeholder"
                         class="pl-10"

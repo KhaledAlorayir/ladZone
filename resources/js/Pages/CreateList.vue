@@ -27,9 +27,8 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { Ref, ref, watch } from "vue";
+import { ref, type Ref, computed } from "vue";
 
 const props = defineProps<CreateListData>();
 
@@ -37,7 +36,7 @@ const form = useForm<{
     title: string;
     description: string;
     visibility: string;
-    selectedGames: RawgGameResponse[];
+    selectedGames: { game: RawgGameResponse; note: string }[];
     ranked: boolean;
 }>({
     title: "",
@@ -47,21 +46,13 @@ const form = useForm<{
     ranked: false,
 });
 
-const selectedGameForNote = ref<RawgGameResponse | null>(null);
-const gameNoteMap = ref(new Map<number, Ref<string>>());
+const selectedGameForNoteIndex = ref<number>(-1);
 
 function removeGameHandler(gameId: number) {
-    form.selectedGames = form.selectedGames.filter((game) => game.id != gameId);
-    gameNoteMap.value.delete(gameId);
+    form.selectedGames = form.selectedGames.filter(
+        ({ game }) => game.id != gameId
+    );
 }
-
-watch(form.selectedGames, () => {
-    const lastAdded = form.selectedGames[form.selectedGames.length - 1];
-
-    if (lastAdded && !gameNoteMap.value.has(lastAdded.id)) {
-        gameNoteMap.value.set(lastAdded.id, ref(""));
-    }
-});
 </script>
 
 <template>
@@ -114,8 +105,13 @@ watch(form.selectedGames, () => {
                 </div>
                 <div class="mt-8 w-1/2">
                     <GameSearchInput
-                        @update:model-value="(a) => (form.selectedGames = a)"
-                        :model-value="form.selectedGames"
+                        :selected-games="
+                            form.selectedGames.map(({ game }) => game)
+                        "
+                        @select="
+                            (game) =>
+                                form.selectedGames.push({ game, note: '' })
+                        "
                         placeholder="add games..."
                     />
                 </div>
@@ -132,15 +128,18 @@ watch(form.selectedGames, () => {
                                     index !== form.selectedGames.length - 1,
                             })
                         "
-                        v-for="(game, index) in form.selectedGames"
+                        v-for="({ game }, index) in form.selectedGames"
                         :key="game.id"
                     >
                         <div class="flex items-center gap-4">
-                            <section
-                                class="h-32 w-32 rounded-lg overflow-hidden"
+                            <span
+                                :class="{ invisible: !form.ranked }"
+                                class="font-bold"
+                                >{{ index + 1 }}</span
                             >
+                            <section class="h-32 w-32 overflow-hidden">
                                 <img
-                                    class="w-full h-full object-contain"
+                                    class="w-full h-full rounded-md object-contain"
                                     v-if="game.background_image"
                                     :src="game.background_image"
                                     :alt="game.name"
@@ -151,7 +150,7 @@ watch(form.selectedGames, () => {
                             </span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <Button @click="selectedGameForNote = game">
+                            <Button @click="selectedGameForNoteIndex = index">
                                 note <Notebook class="w-4 h-4 ml-2" />
                             </Button>
                             <Button
@@ -170,26 +169,26 @@ watch(form.selectedGames, () => {
             </section>
         </section>
         <Dialog
-            :open="!!selectedGameForNote"
-            @update:open="selectedGameForNote = null"
+            :open="selectedGameForNoteIndex > -1"
+            @update:open="selectedGameForNoteIndex = -1"
         >
-            <DialogContent v-if="selectedGameForNote" class="max-w-xl">
+            <DialogContent
+                v-if="selectedGameForNoteIndex > -1"
+                class="max-w-xl"
+            >
                 <DialogHeader>
                     <DialogTitle>note</DialogTitle>
                     <DialogDescription>{{
-                        selectedGameForNote.name
+                        form.selectedGames[selectedGameForNoteIndex].game.name
                     }}</DialogDescription>
                 </DialogHeader>
-                <form @submit.prevent="">
-                    <Textarea
-                        v-model="form.description"
-                        maxlength="5000"
-                        placeholder="note..."
-                        class="resize-none"
-                        rows="4"
-                    ></Textarea>
-                    <Button class="w-full mt-8">save</Button>
-                </form>
+                <Textarea
+                    v-model="form.selectedGames[selectedGameForNoteIndex].note"
+                    maxlength="5000"
+                    placeholder="note..."
+                    class="resize-none"
+                    rows="4"
+                ></Textarea>
             </DialogContent>
         </Dialog>
     </Layout>
