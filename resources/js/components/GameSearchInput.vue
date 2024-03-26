@@ -12,6 +12,7 @@ import {
     DropdownMenuItem,
 } from "radix-vue";
 import { computed, ref } from "vue";
+import FormError from "./FormError.vue";
 
 const props = withDefaults(
     defineProps<{
@@ -77,12 +78,7 @@ const open = ref(false);
                         />
                     </span>
                 </div>
-                <p
-                    class="text-destructive"
-                    v-if="sharedData.props.errors['query']"
-                >
-                    {{ sharedData.props.errors["query"] }}
-                </p>
+                <FormError name="query" />
             </section>
             <DropdownMenuRoot v-model:open="open">
                 <DropdownMenuTrigger class="w-full h-0 invisible"

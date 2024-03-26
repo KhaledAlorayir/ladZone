@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Services\RawgService;
 use App\Shared\Constants;
 use App\Shared\Dtos\CreateListData;
+use App\Shared\Dtos\CreateListRequest;
 use App\Shared\Utils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +21,11 @@ class ListController extends Controller
     public function createListView()
     {
         return Inertia::render('CreateList', new CreateListData());
+    }
+
+    public function createList(CreateListRequest $request)
+    {
+        dd($request);
     }
 
     public function searchGames(Request $request)

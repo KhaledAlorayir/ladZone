@@ -23,6 +23,7 @@ Route::get('/', function (Request $request) {
 });
 
 Route::prefix("list")->group(function () {
+    Route::post("/create-list", [ListController::class, "createList"])->middleware("auth");
     Route::get("/create-list", [ListController::class, "createListView"])->middleware("auth");
     Route::get("/search-games", [ListController::class, "searchGames"])->middleware("auth");
 });
