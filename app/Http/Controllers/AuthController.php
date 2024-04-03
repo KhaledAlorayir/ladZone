@@ -5,16 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
 
 class AuthController extends Controller
 {
-    function redirect(Request $request)
+    function redirect()
     {
-        if ($request->user()) {
+        if (Auth::user()) {
             return redirect("/");
         }
         return Socialite::driver('discord')->redirect();

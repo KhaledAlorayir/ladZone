@@ -2,7 +2,7 @@
 import { useSharedData } from "@/hooks/useSharedData";
 
 const sharedData = useSharedData();
-const props = defineProps({ name: { type: String, required: true } });
+const props = defineProps<{ name: string }>();
 </script>
 
 <template>

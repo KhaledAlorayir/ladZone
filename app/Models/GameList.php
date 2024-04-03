@@ -43,6 +43,13 @@ class GameList extends Model
         'visibility' => Visibility::class
     ];
 
+    protected $fillable = [
+        'title',
+        'description',
+        'visibility',
+        'user_id'
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

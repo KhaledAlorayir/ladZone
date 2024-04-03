@@ -35,6 +35,7 @@ import FormError from "@/components/FormError.vue";
 
 interface CreateListForm extends Omit<CreateListRequest, "selectedGames"> {
     selectedGames: { game: RawgGameResponse; note: string }[];
+    ranked: boolean;
 }
 
 const props = defineProps<CreateListData>();
@@ -64,9 +65,10 @@ function createListHandler() {
     form.transform(
         (data): CreateListRequest => ({
             ...data,
-            selectedGames: data.selectedGames.map(({ game, note }) => ({
+            selectedGames: form.selectedGames.map(({ game, note }, index) => ({
                 id: game.id,
                 note,
+                rank: form.ranked ? index + 1 : null,
             })),
         })
     ).post("/list/create-list");
@@ -103,22 +105,26 @@ function createListHandler() {
                 </div>
 
                 <div class="flex items-center justify-between">
-                    <Select v-model="form.visibility">
-                        <SelectTrigger class="w-[180px]">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Visibility</SelectLabel>
-                                <SelectItem
-                                    v-for="visibility in props.visibilityTypes"
-                                    :key="visibility"
-                                    :value="visibility"
-                                    >{{ visibility }}</SelectItem
-                                >
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                    <div>
+                        <Select v-model="form.visibility">
+                            <SelectTrigger class="w-[180px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Visibility</SelectLabel>
+                                    <SelectItem
+                                        v-for="visibility in props.visibilityTypes"
+                                        :key="visibility"
+                                        :value="visibility"
+                                        >{{ visibility }}</SelectItem
+                                    >
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        <FormError name="visibility" />
+                    </div>
+
                     <div class="flex items-center space-x-2">
                         <Checkbox id="ranked" v-model:checked="form.ranked" />
                         <label
@@ -140,6 +146,7 @@ function createListHandler() {
                         "
                         placeholder="add games..."
                     />
+                    <FormError name="selectedGames" />
                 </div>
                 <Button
                     class="w-full mt-8"

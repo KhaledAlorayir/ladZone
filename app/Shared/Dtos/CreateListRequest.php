@@ -4,9 +4,11 @@ namespace App\Shared\Dtos;
 
 use App\Shared\Enums\Visibility;
 use Spatie\LaravelData\Attributes\Validation\Max;
-use Spatie\LaravelData\Attributes\Validation\Nullable;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
+use App\Rules\ListEntries;
+use Spatie\LaravelData\Attributes\Validation\Min;
+use Spatie\LaravelData\Attributes\Validation\Rule;
 
 /** @typescript */
 class CreateListRequest extends Data
@@ -18,9 +20,9 @@ class CreateListRequest extends Data
     public ?string $description;
     #[LiteralTypeScriptType("string")]
     public Visibility $visibility;
-    public bool $ranked;
-    // TODO validaite all ids exist, create controller
     /** @var array<ListEntry> */
+    #[Min(1)]
+    #[Rule(new ListEntries)]
     public array $selectedGames;
 }
 
@@ -31,4 +33,5 @@ class ListEntry extends Data
     #[LiteralTypeScriptType("string")]
     public ?string $note;
     public int $id;
+    public ?int $rank;
 }

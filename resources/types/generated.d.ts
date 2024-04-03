@@ -5,12 +5,12 @@ export type CreateListRequest = {
 title: string;
 description: string;
 visibility: string;
-ranked: boolean;
 selectedGames: Array<ListEntry>;
 };
 export type ListEntry = {
 note: string;
 id: number;
+rank: number | null;
 };
 export type RawgGameResponse = {
 name: string;

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -31,6 +31,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Entry extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'note',
+        'game_id',
+        'rank'
+    ];
 
     public function list(): BelongsTo
     {

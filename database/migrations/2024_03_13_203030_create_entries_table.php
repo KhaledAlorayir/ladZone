@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //TODO may need to add an explicit order (in order list here), gonna try timstamps first
         Schema::create('entries', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('rank')->nullable();
             $table->string("note", 512)->nullable();
             $table->foreignId("game_list_id")->constrained();
             $table->foreignId("game_id")->constrained();

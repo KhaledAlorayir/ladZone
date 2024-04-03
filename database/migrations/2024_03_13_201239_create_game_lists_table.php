@@ -17,7 +17,6 @@ return new class extends Migration
             $table->timestamps();
             $table->string("title");
             $table->string("description", 5000)->nullable();
-            $table->boolean("ranked");
             $table->enum("visibility", array_column(Visibility::cases(), 'value'));
             $table->foreignId("user_id")->constrained();
             $table->unique(["title", "user_id"]);
