@@ -34,6 +34,12 @@ const {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent class="w-24 mt-1">
                     <DropdownMenuGroup>
+                        <Link :href="`/user/${auth.id}`">
+                            <DropdownMenuItem>
+                                <ListMinus class="mr-2 h-4 w-4" />
+                                <span>profile</span>
+                            </DropdownMenuItem>
+                        </Link>
                         <Link href="/list/create-list">
                             <DropdownMenuItem>
                                 <ListMinus class="mr-2 h-4 w-4" />

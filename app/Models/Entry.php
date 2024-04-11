@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Entry whereUpdatedAt($value)
+ * @property int|null $rank
+ * @method static \Illuminate\Database\Eloquent\Builder|Entry whereRank($value)
  * @mixin \Eloquent
  */
 class Entry extends Model

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|GameList whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameList whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|GameList whereVisibility($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $interactions
+ * @property-read int|null $interactions_count
  * @mixin \Eloquent
  */
 class GameList extends Model
@@ -58,5 +60,10 @@ class GameList extends Model
     public function entires(): HasMany
     {
         return $this->hasMany(Entry::class);
+    }
+
+    public function interactions(): HasMany
+    {
+        return $this->hasMany(Interaction::class);
     }
 }

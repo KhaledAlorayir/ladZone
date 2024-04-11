@@ -27,15 +27,14 @@ class ListController extends Controller
         return Inertia::render('CreateList', new CreateListData());
     }
 
-    public function createList(Request $request)
+    public function createList(CreateListRequest $request)
     {
-        $createListRequest = CreateListRequest::from($request);
 
-        if (GameList::whereUserId(Auth::id())->whereTitle($createListRequest->title)->exists()) {
+        if (GameList::whereUserId(Auth::id())->whereTitle($request->title)->exists()) {
             abort(400, "list name already used");
         }
 
-        $selectedGames = collect($createListRequest->selectedGames);
+        $selectedGames = collect($request->selectedGames);
         $games = collect(Game::whereIn('rawg_id',  $selectedGames->map(fn ($value) => $value->id)->toArray())->get());
 
         if ($games->count() !== $selectedGames->count()) {
@@ -45,7 +44,7 @@ class ListController extends Controller
         $gamesGroupedByRawgId = $games->groupBy('rawg_id');
 
         GameList::create(
-            array_merge($createListRequest->except('selectedGames')->toArray(), ['user_id' => Auth::id()])
+            array_merge($request->except('selectedGames')->toArray(), ['user_id' => Auth::id()])
         )->entires()->createMany(
             $selectedGames->map(fn (ListEntry $value) => [
                 'note' => $value->note,
@@ -53,7 +52,6 @@ class ListController extends Controller
                 'rank' => $value->rank
             ])
         );;
-        //TODO redirect to list page
     }
 
     public function searchGames(Request $request)

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -20,6 +21,10 @@ use Inertia\Inertia;
 
 Route::get('/', function (Request $request) {
     return Inertia::render("Home");
+});
+
+Route::prefix("user")->group(function () {
+    Route::get("/{user}", [UserController::class, "userProfile"]);
 });
 
 Route::prefix("list")->group(function () {

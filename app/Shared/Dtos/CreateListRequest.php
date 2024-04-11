@@ -22,6 +22,7 @@ class CreateListRequest extends Data
     public Visibility $visibility;
     /** @var array<ListEntry> */
     #[Min(1)]
+    #[Max(200)]
     #[Rule(new ListEntries)]
     public array $selectedGames;
 }
